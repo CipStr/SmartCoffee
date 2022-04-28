@@ -1,5 +1,6 @@
 #include "Task.h"
 #include "RunningTask.h"
+#include <Arduino.h>
 #define NMAX 10
 
 void RunningTask::init(int period) {
@@ -14,7 +15,7 @@ void RunningTask::tick() {
   switch (state) {
     case BOOTING:
       Serial.println("Booting...The smart coffee machine is ready!");
-      millis(5000);
+      delay(5000);
       for(int i=0;i<3;i++) {
         coffeeType_array[i] = NMAX ;
       }
@@ -24,7 +25,7 @@ void RunningTask::tick() {
     case CHECKING:
       break;
     case IDLE:
-      Serial.println("Idle...");
+      //Serial.println("Idle...");
       break;
   }
 }
