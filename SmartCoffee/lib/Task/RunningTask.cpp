@@ -1,4 +1,5 @@
 #include "Task.h"
+#include "MakingTask.h"
 #include "RunningTask.h"
 #include <Arduino.h>
 #include "ButtonImpl.h"
@@ -6,7 +7,11 @@
 
 #define NMAX 10
 
-
+RunningTask::RunningTask(MakingTask* task){
+  taskToBeControlled = task;
+  taskToBeControlled->init(100);
+  taskToBeControlled->setActive(false);
+}
 void RunningTask::init(int period,Button* buttonUP,Button* buttonDOWN,Button* buttonMAKE,Pot* sugarPot) {
   Task::init(period);
   selectedCoffeeType=0;
@@ -37,6 +42,7 @@ void RunningTask::tick() {
     case CHECKING:
       break;
     case IDLE:
+      sugar=sugarPot->getValue(0,10);
       msgChecking();
       if(readyFlag) {
         Serial.println("Ready!");
@@ -52,6 +58,8 @@ void RunningTask::tick() {
         timer.startTimer();
         Serial.println("Selected coffee type: ");
         Serial.println(selectedCoffeeType);
+        Serial.println("Sugar level: ");
+        Serial.println(sugar);
       }
       if(buttonDOWN->isPressed()) {
         if(selectedCoffeeType<=1) {
@@ -61,26 +69,28 @@ void RunningTask::tick() {
           selectedCoffeeType--;
         }
         timer.startTimer();
-        Serial.println("Selected coffee type:");
+        Serial.println("Selected coffee type: ");
         Serial.println(selectedCoffeeType);
+        Serial.println("Sugar level: ");
+        Serial.println(sugar);
       }
       if(buttonMAKE->isPressed()) {
         if(coffeeType_array[selectedCoffeeType]>0) {
           coffeeType_array[selectedCoffeeType]--;
           Serial.println("Coffee type available");
           Serial.println("Select the amount of sugar to add:");
-          timer.startTimer();
-          state=SUGAR;
+          state=MAKE;
         }
         else {
           Serial.println("Coffee type not available");
         }
       }
       break;
-    case SUGAR:
-      sugar=sugarPot->getValue(0,10);
-      Serial.println("Sugar level: ");
-      Serial.println(sugar);
+    case MAKE:
+      Serial.println("Make");
+      taskToBeControlled->setActive(true);
+      taskToBeControlled->setBeverage(selectedCoffeeType);
+      this->setActive(false);
       break;
     }
 }

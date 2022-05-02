@@ -4,6 +4,10 @@
 #include <Scheduler.h>
 #include <ButtonImpl.h>
 #include <Pot.h>
+#include <Utils.h>
+#include <string.h>
+#include <MakingTask.h>
+
 
 #define BUP 2
 #define BDOWN 3
@@ -22,12 +26,15 @@ void setup() {
   buttonDOWN = new ButtonImpl(BDOWN);
   buttonMAKE = new ButtonImpl(BMAKE);
   sugarPot = new Pot();
+  //TODO LCD
   Serial.begin(9600);
-  Serial.println("Starting...");
   scheduler.init(100);
-  RunningTask* running = new RunningTask();
+  MakingTask* makingTask = new MakingTask();
+  RunningTask* running = new RunningTask(makingTask);
+  running->setActive(true);
   running->init(100, buttonUP, buttonDOWN, buttonMAKE, sugarPot);
   scheduler.addTask(running);
+  scheduler.addTask(makingTask);
 }
 
 void loop() {

@@ -3,19 +3,23 @@
 
 #include "Task.h"
 #include "ButtonImpl.h"
+#include "MakingTask.h"
 #include "Pot.h"
 #include "Utils.h"
 
 
 class RunningTask: public Task {
+  MakingTask* taskToBeControlled;
+
     enum{
         BOOTING,
         IDLE, 
         CHECKING, 
-        SUGAR,
+        MAKE,
     } state;
 
   public:
+    RunningTask(MakingTask* taskToBeControlled);
     void init(int period,Button* buttonUP,Button* buttonDOWN,Button* buttonMAKE,Pot* sugarPot);
     void tick();
     
