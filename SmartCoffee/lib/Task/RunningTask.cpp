@@ -83,17 +83,15 @@ void RunningTask::tick() {
       if(buttonMAKE->isPressed()) {
         if(coffeeType_array[selectedCoffeeType]>0) {
           coffeeType_array[selectedCoffeeType]--;
-          Serial.println("Coffee type available");
-          Serial.println("Select the amount of sugar to add:");
+          singleton.lcd.print("Coffee type available");
           state=MAKE;
         }
         else {
-          Serial.println("Coffee type not available");
+          singleton.lcd.print("Coffee type not available");
         }
       }
       break;
     case MAKE:
-      Serial.println("Make");
       taskToBeControlled->setActive(true);
       taskToBeControlled->setBeverage(selectedCoffeeType);
       this->setActive(false);

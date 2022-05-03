@@ -1,4 +1,5 @@
 #include "MakingTask.h"
+#include "Utils.h"
 #include <Arduino.h>
 
 MakingTask::MakingTask(){    
@@ -16,8 +17,8 @@ void MakingTask::setBeverage(int beverage){
 void MakingTask::tick(){
     switch(state){
         case MAKING:
-          Serial.println("Making a ");
-          Serial.println(beverage);
+          singleton.lcd.print("Making a ");
+          singleton.lcd.print(beverage);
         break;
   }
 }
