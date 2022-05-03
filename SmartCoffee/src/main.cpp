@@ -26,7 +26,10 @@ void setup() {
   buttonDOWN = new ButtonImpl(BDOWN);
   buttonMAKE = new ButtonImpl(BMAKE);
   sugarPot = new Pot();
-  //TODO LCD
+  singleton.lcd.init();
+  singleton.lcd.backlight();
+  singleton.lcd.setCursor(2,1);
+  singleton.lcd.print("Smart Coffee Machine");
   Serial.begin(9600);
   scheduler.init(100);
   MakingTask* makingTask = new MakingTask();

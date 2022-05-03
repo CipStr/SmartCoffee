@@ -45,7 +45,9 @@ void RunningTask::tick() {
       sugar=sugarPot->getValue(0,10);
       msgChecking();
       if(readyFlag) {
-        Serial.println("Ready!");
+        singleton.lcd.clear();
+        singleton.lcd.setCursor(2,1);
+        singleton.lcd.print("Ready!");
         readyFlag=false;
       }
       if(buttonUP->isPressed()) {
@@ -56,10 +58,12 @@ void RunningTask::tick() {
           selectedCoffeeType++;
         }
         timer.startTimer();
-        Serial.println("Selected coffee type: ");
-        Serial.println(selectedCoffeeType);
-        Serial.println("Sugar level: ");
-        Serial.println(sugar);
+        singleton.lcd.clear();
+        singleton.lcd.setCursor(0,0);
+        singleton.lcd.print("Selected coffee type:");
+        singleton.lcd.print(selectedCoffeeType);
+        singleton.lcd.print(" Sugar level: ");
+        singleton.lcd.print(sugar);
       }
       if(buttonDOWN->isPressed()) {
         if(selectedCoffeeType<=1) {
@@ -69,10 +73,12 @@ void RunningTask::tick() {
           selectedCoffeeType--;
         }
         timer.startTimer();
-        Serial.println("Selected coffee type: ");
-        Serial.println(selectedCoffeeType);
-        Serial.println("Sugar level: ");
-        Serial.println(sugar);
+        singleton.lcd.clear();
+        singleton.lcd.setCursor(0,0);
+        singleton.lcd.print("Selected coffee type:");
+        singleton.lcd.print(selectedCoffeeType);
+        singleton.lcd.print(" Sugar level: ");
+        singleton.lcd.print(sugar);
       }
       if(buttonMAKE->isPressed()) {
         if(coffeeType_array[selectedCoffeeType]>0) {

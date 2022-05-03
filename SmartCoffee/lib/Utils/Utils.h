@@ -12,12 +12,20 @@ class timer{
        void startTimer();
        bool checkExpired(int t);
 };
-class lcd{
-    private:
-         LiquidCrystal_I2C display = LiquidCrystal_I2C(0x27,20,4);
-    public:
-    lcd(); //constructor
-    void printMsg(char* msg);
-    void clear();
+
+class PCI {
+
+  public:
+    PCI(const PCI &) = delete;
+    PCI &operator=(const PCI &) = delete;
+    static PCI &getInstance();
+    LiquidCrystal_I2C lcd;
+
+  private:
+    PCI() : lcd(0x27,20,4) {}
+
 };
+
+extern PCI &singleton;
+
 #endif
