@@ -2,15 +2,14 @@
 #define __RUNNINGTASK__
 
 #include "Task.h"
-#include "ButtonImpl.h"
 #include "MakingTask.h"
+#include "ButtonImpl.h"
 #include "Pot.h"
 #include "Utils.h"
-
+class MakingTask;
 
 class RunningTask: public Task {
-  MakingTask* taskToBeControlled;
-
+ 
     enum{
         BOOTING,
         IDLE, 
@@ -19,9 +18,11 @@ class RunningTask: public Task {
     } state;
 
   public:
-    RunningTask(MakingTask* taskToBeControlled);
+    RunningTask();
     void init(int period,Button* buttonUP,Button* buttonDOWN,Button* buttonMAKE,Pot* sugarPot);
     void tick();
+    void addMakingTask(MakingTask* makingTask);
+    void resetState();
 
   private:
     int coffeeType_array[3];
@@ -31,7 +32,7 @@ class RunningTask: public Task {
     Pot* sugarPot;
     int selectedCoffeeType;
     void msgChecking();
-    timer timer;
+    CustomTimer timer;
     bool readyFlag;
     int sugar;
 };

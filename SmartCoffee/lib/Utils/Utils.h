@@ -4,11 +4,11 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
-class timer{
+class CustomTimer{
     private:
        unsigned long initialTime;
        public:
-       timer(); //constructor
+       CustomTimer(); //constructor
        void startTimer();
        bool isStarted();
        bool checkExpired(int t);

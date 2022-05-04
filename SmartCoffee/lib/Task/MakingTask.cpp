@@ -5,6 +5,8 @@
 #define SERVO_PIN 9
 #define delta 9
 
+RunningTask* running;
+
 MakingTask::MakingTask(){    
   
 }
@@ -20,6 +22,9 @@ void MakingTask::init(int period, ServoMotor* servo,Sonar* sonar){
   state = MAKING;    
 }
 
+void MakingTask::addRunningTask(RunningTask* runningTask){
+  running = runningTask;
+}
 
 void MakingTask::setBeverage(int beverage){
   this->beverage = beverage;
@@ -70,7 +75,8 @@ void MakingTask::timeoutOrRemoved(){
     singleton.lcd.setCursor(0,0);
     singleton.lcd.clear();
     singleton.lcd.print("Coffee removed!");
-    delay(5000);
+    running->setActive(true);
+    running->resetState();
     this->setActive(false);
   }
 }

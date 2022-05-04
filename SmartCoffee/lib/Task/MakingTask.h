@@ -6,6 +6,7 @@
 #include "Utils.h"
 #include "Sonar.h"
 #include "RunningTask.h"
+class RunningTask;
 
 class MakingTask: public Task {
 
@@ -17,12 +18,13 @@ public:
   void init(int period, ServoMotor* servo,Sonar* sonar);
   void setBeverage(int beverage);  
   void tick();
+  void addRunningTask(RunningTask* runningTask);
   
 private:
   int beverage;
   ServoMotor* servo;
   Sonar* sonar;
-  timer timer;
+  CustomTimer timer;
   void checkMovement();
   void timeoutOrRemoved();
   int position;

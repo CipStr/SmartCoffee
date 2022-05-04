@@ -4,16 +4,16 @@
 #include <LiquidCrystal_I2C.h>
 #include <string.h>
 
-timer::timer() {
+CustomTimer::CustomTimer() {
   initialTime = 0;
 }
-void timer::startTimer() {
+void CustomTimer::startTimer() {
   initialTime = millis();
 }
-bool timer::isStarted() {
+bool CustomTimer::isStarted() {
   return initialTime != 0;
 }
-bool timer::checkExpired(int t) {
+bool CustomTimer::checkExpired(int t) {
   if(millis() - initialTime >= t) {
     return true;
   }

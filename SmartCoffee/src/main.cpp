@@ -1,14 +1,13 @@
 #include <Arduino.h>
-#include <Task.h>
-#include <RunningTask.h>
-#include <Scheduler.h>
-#include <ButtonImpl.h>
-#include <Pot.h>
-#include <Utils.h>
-#include <string.h>
-#include <MakingTask.h>
-#include <ServoMotorImpl.h>
-#include <Sonar.h>
+#include "Task.h"
+#include "MakingTask.h"
+#include "RunningTask.h"
+#include "Scheduler.h"
+#include "ButtonImpl.h"
+#include "Pot.h"
+#include "Utils.h"
+#include "ServoMotorImpl.h"
+#include "Sonar.h"
 
 #define BUP 2
 #define BDOWN 3
@@ -38,14 +37,15 @@ void setup() {
   scheduler.init(100);
   MakingTask* makingTask = new MakingTask();
   makingTask->init(100,servo,sonar);
-  RunningTask* running = new RunningTask(makingTask);
+  RunningTask* running = new RunningTask();
   running->setActive(true);
   running->init(100, buttonUP, buttonDOWN, buttonMAKE, sugarPot);
+  running->addMakingTask(makingTask);
+  makingTask->addRunningTask(running);
   scheduler.addTask(running);
   scheduler.addTask(makingTask);
 }
 
 void loop() {
   scheduler.schedule();
-  // put your main code here, to run repeatedly:
 }

@@ -6,10 +6,14 @@
 #include "Utils.h"
 
 #define NMAX 10
+MakingTask* makingTask;
 
-RunningTask::RunningTask(MakingTask* task){
-  taskToBeControlled = task;
-  taskToBeControlled->setActive(false);
+RunningTask::RunningTask(){
+}
+
+void RunningTask::addMakingTask(MakingTask* task){
+  makingTask = task;
+  makingTask->setActive(false);
 }
 void RunningTask::init(int period,Button* buttonUP,Button* buttonDOWN,Button* buttonMAKE,Pot* sugarPot) {
   Task::init(period);
@@ -24,6 +28,11 @@ void RunningTask::init(int period,Button* buttonUP,Button* buttonDOWN,Button* bu
   for(int i=0;i<3;i++) {
     coffeeType_array[i] = 0;
   }
+}
+
+void RunningTask::resetState(){
+  state = IDLE;
+  readyFlag=true;
 }
 
 void RunningTask::tick() {
@@ -98,8 +107,8 @@ void RunningTask::tick() {
       }
       break;
     case MAKE:
-      taskToBeControlled->setActive(true);
-      taskToBeControlled->setBeverage(selectedCoffeeType);
+      makingTask->setActive(true);
+      makingTask->setBeverage(selectedCoffeeType);
       this->setActive(false);
       break;
     }
