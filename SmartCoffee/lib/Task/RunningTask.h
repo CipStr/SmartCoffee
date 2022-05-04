@@ -1,5 +1,5 @@
-#ifndef __RUNNING_TASK__
-#define __RUNNING_TASK__
+#ifndef __RUNNINGTASK__
+#define __RUNNINGTASK__
 
 #include "Task.h"
 #include "ButtonImpl.h"
@@ -22,7 +22,7 @@ class RunningTask: public Task {
     RunningTask(MakingTask* taskToBeControlled);
     void init(int period,Button* buttonUP,Button* buttonDOWN,Button* buttonMAKE,Pot* sugarPot);
     void tick();
-    
+
   private:
     int coffeeType_array[3];
     Button* buttonUP;

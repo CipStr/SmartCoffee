@@ -1,0 +1,19 @@
+#include "ServoMotorImpl.h"
+#include "Arduino.h"
+#include <Servo.h>
+
+ServoMotorImpl::ServoMotorImpl(int pin){
+  this->pin = pin;  
+} 
+
+void ServoMotorImpl::on(){
+  motor.attach(pin);    
+}
+
+void ServoMotorImpl::setPosition(int angle){
+  motor.write(angle);              
+}
+
+void ServoMotorImpl::off(){
+  motor.detach();    
+}

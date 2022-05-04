@@ -5,9 +5,13 @@
 #include <string.h>
 
 timer::timer() {
+  initialTime = 0;
 }
 void timer::startTimer() {
   initialTime = millis();
+}
+bool timer::isStarted() {
+  return initialTime != 0;
 }
 bool timer::checkExpired(int t) {
   if(millis() - initialTime >= t) {

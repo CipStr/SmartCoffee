@@ -9,7 +9,6 @@
 
 RunningTask::RunningTask(MakingTask* task){
   taskToBeControlled = task;
-  taskToBeControlled->init(100);
   taskToBeControlled->setActive(false);
 }
 void RunningTask::init(int period,Button* buttonUP,Button* buttonDOWN,Button* buttonMAKE,Pot* sugarPot) {
@@ -30,19 +29,24 @@ void RunningTask::init(int period,Button* buttonUP,Button* buttonDOWN,Button* bu
 void RunningTask::tick() {
   switch (state) {
     case BOOTING:
-      Serial.println("Booting...The smart coffee machine is ready!");
+      singleton.lcd.setCursor(0,0);
+      singleton.lcd.print("Booting...");
       //delay(5000);
       for(int i=0;i<3;i++) {
         coffeeType_array[i] = NMAX ;
       }
-      Serial.println("I just filled the coffee machine with 10 cups of coffee for each type!");
-      Serial.println("Coffee type: 1. Latte 2. Espresso 3. Cappuccino");
+      singleton.lcd.clear();
+      singleton.lcd.print("I just refilled the coffee machine");
+      singleton.lcd.print("Coffee type: 1. Latte 2. Espresso 3. Cappuccino");
       state=IDLE;
       break;
     case CHECKING:
       break;
     case IDLE:
-      sugar=sugarPot->getValue(0,10);
+      sugar=sugarPot->getValue(0,9);
+      singleton.lcd.setCursor(3,2);
+      singleton.lcd.print(" Sugar level: ");
+      singleton.lcd.print(sugar);
       msgChecking();
       if(readyFlag) {
         singleton.lcd.clear();
@@ -83,10 +87,12 @@ void RunningTask::tick() {
       if(buttonMAKE->isPressed()) {
         if(coffeeType_array[selectedCoffeeType]>0) {
           coffeeType_array[selectedCoffeeType]--;
+          singleton.lcd.clear();
           singleton.lcd.print("Coffee type available");
           state=MAKE;
         }
         else {
+          singleton.lcd.clear();
           singleton.lcd.print("Coffee type not available");
         }
       }

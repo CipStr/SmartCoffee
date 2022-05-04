@@ -10,6 +10,7 @@ class timer{
        public:
        timer(); //constructor
        void startTimer();
+       bool isStarted();
        bool checkExpired(int t);
 };
 
