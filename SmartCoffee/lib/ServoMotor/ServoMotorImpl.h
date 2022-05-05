@@ -1,8 +1,10 @@
 #ifndef __SERVOMOTORIMPL__
 #define __SERVOMOTORIMPL__
 
+typedef bool boolean;
+#define byte uint8_t
 #include "ServoMotor.h"
-#include <Servo.h>
+#include <ServoTimer2.h>
 
 class ServoMotorImpl: public ServoMotor {
 
@@ -15,7 +17,7 @@ public:
     
 private:
   int pin; 
-  Servo motor; 
+  ServoTimer2 motor; 
 };
 
 #endif

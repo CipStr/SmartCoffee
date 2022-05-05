@@ -48,4 +48,6 @@ void setup() {
 
 void loop() {
   scheduler.schedule();
+  Serial.println(".");
+  Serial.println("Hello");
 }

@@ -1,8 +1,7 @@
 #include "MakingTask.h"
 #include "Utils.h"
 #include <Arduino.h>
-#include <Servo.h>
-#define SERVO_PIN 9
+#include <ServoTimer2.h>
 #define delta 9
 
 RunningTask* running;
@@ -17,8 +16,8 @@ void MakingTask::init(int period, ServoMotor* servo,Sonar* sonar){
   this->servo = servo;
   this->sonar = sonar;
   this->sonar->init();
-  //servo->on();
-  //servo->setPosition(0);
+  this->servo->on();
+  this->servo->setPosition(0);
   state = MAKING;    
 }
 
@@ -36,8 +35,6 @@ void MakingTask::tick(){
           if(!timer.isStarted()){
             timer.startTimer();
           }
-          //servo->setPosition(position);
-          //position += delta;
           checkMovement();
           singleton.lcd.setCursor(0,0);
           singleton.lcd.clear();
@@ -61,6 +58,7 @@ void MakingTask::tick(){
 void MakingTask::checkMovement() {
   if(timer.checkExpired(500)) {
     if(position<180) {
+      servo->setPosition(position);
       position += delta;
     }
     else {
