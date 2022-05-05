@@ -19,6 +19,7 @@ public:
   void setBeverage(int beverage);  
   void tick();
   void addRunningTask(RunningTask* runningTask);
+  void resetState();
   
 private:
   int beverage;

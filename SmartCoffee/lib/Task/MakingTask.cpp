@@ -43,9 +43,6 @@ void MakingTask::tick(){
           singleton.lcd.print("...");
         break;
         case READY:
-          if(!timer.isStarted()){
-            timer.startTimer();
-          }
           singleton.lcd.setCursor(0,0);
           singleton.lcd.clear();
           singleton.lcd.print("The ");
@@ -55,17 +52,26 @@ void MakingTask::tick(){
         break;
   }
 }
+
+void MakingTask::resetState(){
+  this->setActive(true);
+  position = 0;
+  state = MAKING;
+}
+
 void MakingTask::checkMovement() {
   if(timer.checkExpired(500)) {
     if(position<180) {
       servo->setPosition(position);
       position += delta;
+      timer.startTimer();
     }
     else {
+      Serial.println(timer.isStarted());
       servo->setPosition(0);
+      timer.startTimer();
       state = READY;
     }
-    timer.startTimer();
   }
 }
 void MakingTask::timeoutOrRemoved(){
@@ -73,7 +79,6 @@ void MakingTask::timeoutOrRemoved(){
     singleton.lcd.setCursor(0,0);
     singleton.lcd.clear();
     singleton.lcd.print("Coffee removed!");
-    running->setActive(true);
     running->resetState();
     this->setActive(false);
   }

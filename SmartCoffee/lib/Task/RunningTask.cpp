@@ -31,6 +31,8 @@ void RunningTask::init(int period,Button* buttonUP,Button* buttonDOWN,Button* bu
 }
 
 void RunningTask::resetState(){
+  this->setActive(true);
+  timer.startTimer();
   state = IDLE;
   readyFlag=true;
 }
@@ -107,8 +109,8 @@ void RunningTask::tick() {
       }
       break;
     case MAKE:
-      makingTask->setActive(true);
       makingTask->setBeverage(selectedCoffeeType);
+      makingTask->resetState();
       this->setActive(false);
       break;
     }
