@@ -39,14 +39,14 @@ void MakingTask::tick(){
           singleton.lcd.setCursor(0,0);
           singleton.lcd.clear();
           singleton.lcd.print("Making a ");
-          singleton.lcd.print(beverage);
+          singleton.lcd.print(beverage+1);
           singleton.lcd.print("...");
         break;
         case READY:
           singleton.lcd.setCursor(0,0);
           singleton.lcd.clear();
           singleton.lcd.print("The ");
-          singleton.lcd.print(beverage);
+          singleton.lcd.print(beverage+1);
           singleton.lcd.print(" is ready!");
           timeoutOrRemoved();
         break;

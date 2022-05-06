@@ -66,8 +66,8 @@ void RunningTask::tick() {
         readyFlag=false;
       }
       if(buttonUP->isPressed()) {
-        if(selectedCoffeeType>2) {
-          selectedCoffeeType=1;
+        if(selectedCoffeeType>=2) {
+          selectedCoffeeType=0;
         }
         else {
           selectedCoffeeType++;
@@ -76,13 +76,13 @@ void RunningTask::tick() {
         singleton.lcd.clear();
         singleton.lcd.setCursor(0,0);
         singleton.lcd.print("Selected coffee type:");
-        singleton.lcd.print(selectedCoffeeType);
+        singleton.lcd.print(selectedCoffeeType+1);
         singleton.lcd.print(" Sugar level: ");
         singleton.lcd.print(sugar);
       }
       if(buttonDOWN->isPressed()) {
-        if(selectedCoffeeType<=1) {
-          selectedCoffeeType=3;
+        if(selectedCoffeeType<1) {
+          selectedCoffeeType=2;
         }
         else {
           selectedCoffeeType--;
@@ -91,7 +91,7 @@ void RunningTask::tick() {
         singleton.lcd.clear();
         singleton.lcd.setCursor(0,0);
         singleton.lcd.print("Selected coffee type:");
-        singleton.lcd.print(selectedCoffeeType);
+        singleton.lcd.print(selectedCoffeeType+1);
         singleton.lcd.print(" Sugar level: ");
         singleton.lcd.print(sugar);
       }
