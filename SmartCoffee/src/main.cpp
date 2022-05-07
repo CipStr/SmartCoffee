@@ -8,6 +8,7 @@
 #include "Utils.h"
 #include "ServoMotorImpl.h"
 #include "Sonar.h"
+#include "Pir.h"
 
 #define BUP 2
 #define BDOWN 3
@@ -22,6 +23,7 @@ Button* buttonMAKE;
 Pot* sugarPot;
 ServoMotor* servo;
 Sonar* sonar;
+Pir* pir;
 
 
 void setup() {
@@ -31,6 +33,7 @@ void setup() {
   sugarPot = new Pot();
   servo = new ServoMotorImpl(SERVO_PIN);
   sonar = new Sonar();
+  pir = new Pir();
   singleton.lcd.init();
   singleton.lcd.backlight();
   Serial.begin(9600);
@@ -39,7 +42,7 @@ void setup() {
   makingTask->init(100,servo,sonar);
   RunningTask* running = new RunningTask();
   running->setActive(true);
-  running->init(100, buttonUP, buttonDOWN, buttonMAKE, sugarPot);
+  running->init(100, buttonUP, buttonDOWN, buttonMAKE, sugarPot, pir);
   running->addMakingTask(makingTask);
   makingTask->addRunningTask(running);
   scheduler.addTask(running);
@@ -48,6 +51,6 @@ void setup() {
 
 void loop() {
   scheduler.schedule();
-  Serial.println("loop");
-  Serial.println("YOLO");
+  //Serial.println("loop");
+  //Serial.println("YOLO");
 }

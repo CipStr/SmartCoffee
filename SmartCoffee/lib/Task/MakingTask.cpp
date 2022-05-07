@@ -68,7 +68,6 @@ void MakingTask::checkMovement() {
     }
     else {
       Serial.println(timer.isStarted());
-      servo->setPosition(0);
       timer.startTimer();
       state = READY;
     }
@@ -79,6 +78,7 @@ void MakingTask::timeoutOrRemoved(){
     singleton.lcd.setCursor(0,0);
     singleton.lcd.clear();
     singleton.lcd.print("Coffee removed!");
+    servo->setPosition(0);
     running->resetState();
     this->setActive(false);
   }
