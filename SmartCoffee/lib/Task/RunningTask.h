@@ -3,18 +3,19 @@
 
 #include "Task.h"
 #include "MakingTask.h"
+#include "AssistanceTask.h"
 #include "ButtonImpl.h"
 #include "Pot.h"
 #include "Utils.h"
 #include "Pir.h"
 class MakingTask;
+class AssistanceTask;
 
 class RunningTask: public Task {
  
     enum{
         BOOTING,
-        IDLE, 
-        CHECKING, 
+        IDLE,  
         MAKE,
         SLEEP,
     } state;
@@ -24,6 +25,7 @@ class RunningTask: public Task {
     void init(int period,Button* buttonUP,Button* buttonDOWN,Button* buttonMAKE,Pot* sugarPot, Pir* pir);
     void tick();
     void addMakingTask(MakingTask* makingTask);
+    void addAssistanceTask(AssistanceTask* assistanceTask);
     void resetState();
     void checkMovement();
 

@@ -67,7 +67,6 @@ void MakingTask::checkMovement() {
       timer.startTimer();
     }
     else {
-      Serial.println(timer.isStarted());
       timer.startTimer();
       state = READY;
     }

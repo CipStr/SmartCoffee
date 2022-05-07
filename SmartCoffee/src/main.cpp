@@ -2,6 +2,7 @@
 #include "Task.h"
 #include "MakingTask.h"
 #include "RunningTask.h"
+#include "AssistanceTask.h"
 #include "Scheduler.h"
 #include "ButtonImpl.h"
 #include "Pot.h"
@@ -40,13 +41,19 @@ void setup() {
   scheduler.init(100);
   MakingTask* makingTask = new MakingTask();
   makingTask->init(100,servo,sonar);
+  AssistanceTask* assistanceTask = new AssistanceTask();
+  assistanceTask->init(100,servo);
   RunningTask* running = new RunningTask();
+
   running->setActive(true);
   running->init(100, buttonUP, buttonDOWN, buttonMAKE, sugarPot, pir);
   running->addMakingTask(makingTask);
+  running->addAssistanceTask(assistanceTask);
   makingTask->addRunningTask(running);
+  assistanceTask->addRunningTask(running);
   scheduler.addTask(running);
   scheduler.addTask(makingTask);
+  scheduler.addTask(assistanceTask);
 }
 
 void loop() {

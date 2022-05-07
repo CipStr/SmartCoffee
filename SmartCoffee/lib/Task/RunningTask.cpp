@@ -1,14 +1,16 @@
 #include "Task.h"
 #include "MakingTask.h"
+#include "AssistanceTask.h"
 #include "RunningTask.h"
 #include <Arduino.h>
 #include "ButtonImpl.h"
 #include "Utils.h"
 
 #define NMAX 10
-#define TIDLE 5000
+#define TIDLE 10000
 #define TBOOTING 10000
 MakingTask* makingTask;
+AssistanceTask* assistanceTask;
 
 RunningTask::RunningTask(){
 }
@@ -17,6 +19,12 @@ void RunningTask::addMakingTask(MakingTask* task){
   makingTask = task;
   makingTask->setActive(false);
 }
+
+void RunningTask::addAssistanceTask(AssistanceTask* task){
+  assistanceTask = task;
+  assistanceTask->setActive(false);
+}
+
 void RunningTask::init(int period,Button* buttonUP,Button* buttonDOWN,Button* buttonMAKE,Pot* sugarPot, Pir* pir) {
   Task::init(period);
   selectedCoffeeType=0;
@@ -38,6 +46,8 @@ void RunningTask::resetState(){
   this->setActive(true);
   timer.startTimer();
   pirTimer.startTimer();
+  assistanceTask->resetState();
+  assistanceTask->setActive(true);
   state = IDLE;
   readyFlag=true;
 }
@@ -55,10 +65,9 @@ void RunningTask::tick() {
       }
       if(pirTimer.checkExpired(TBOOTING)){
         pirTimer.startTimer();
+        assistanceTask->setActive(true);
         state = IDLE;
       }
-      break;
-    case CHECKING:
       break;
     case SLEEP:
       singleton.lcd.clear();
@@ -66,6 +75,7 @@ void RunningTask::tick() {
       singleton.lcd.print("Sleeping...");
       if(pir->getStatus()){
         pirTimer.startTimer();
+        assistanceTask->resetState();
         state = IDLE;
       }
       break;
@@ -126,6 +136,7 @@ void RunningTask::tick() {
       }
       break;
     case MAKE:
+      assistanceTask->setActive(false);
       makingTask->setBeverage(selectedCoffeeType);
       makingTask->resetState();
       this->setActive(false);
@@ -142,10 +153,9 @@ void RunningTask::msgChecking() {
 
 void RunningTask::checkMovement() {
   int current = pir->getStatus();
-  Serial.println(pirTimer.isStarted());
-  Serial.println(current);
   if (current==0) {
     if(pirTimer.checkExpired(TIDLE)) {
+      assistanceTask->setActive(false);
       state = SLEEP;
     }
   }
