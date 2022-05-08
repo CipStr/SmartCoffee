@@ -3,16 +3,22 @@
 #include "AssistanceTask.h"
 #include "RunningTask.h"
 #include <Arduino.h>
+#include "./avr/sleep.h"
+#include "./avr/power.h"
 #include "ButtonImpl.h"
 #include "Utils.h"
 
 #define NMAX 10
-#define TIDLE 10000
+#define TIDLE 60000
 #define TBOOTING 10000
 MakingTask* makingTask;
 AssistanceTask* assistanceTask;
 
 RunningTask::RunningTask(){
+}
+
+void wakeUp() {
+  detachInterrupt(2);
 }
 
 void RunningTask::addMakingTask(MakingTask* task){
@@ -40,7 +46,10 @@ void RunningTask::init(int period,Button* buttonUP,Button* buttonDOWN,Button* bu
   for(int i=0;i<3;i++) {
     coffeeType_array[i] = 0;
   }
+  
 }
+
+
 
 void RunningTask::resetState(){
   this->setActive(true);
@@ -70,14 +79,18 @@ void RunningTask::tick() {
       }
       break;
     case SLEEP:
+      attachInterrupt(digitalPinToInterrupt(2), wakeUp, RISING);
       singleton.lcd.clear();
       singleton.lcd.setCursor(0,0);
       singleton.lcd.print("Sleeping...");
-      if(pir->getStatus()){
-        pirTimer.startTimer();
-        assistanceTask->resetState();
-        state = IDLE;
-      }
+      set_sleep_mode(SLEEP_MODE_PWR_DOWN);  
+      sleep_enable();
+      sleep_mode();
+      sleep_disable();
+      Serial.println("wake up");
+      pirTimer.startTimer();
+      assistanceTask->resetState();
+      state = IDLE;
       break;
     case IDLE:
       checkMovement();

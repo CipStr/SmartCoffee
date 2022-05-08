@@ -1,6 +1,6 @@
 #include "Pir.h"
 #include <Arduino.h>
-#define PIR 5
+#define PIR 2
 
 Pir::Pir(){
     pinMode(PIR, INPUT);

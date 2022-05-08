@@ -11,7 +11,7 @@
 #include "Sonar.h"
 #include "Pir.h"
 
-#define BUP 2
+#define BUP 5
 #define BDOWN 3
 #define BMAKE 4
 #define POT A0
