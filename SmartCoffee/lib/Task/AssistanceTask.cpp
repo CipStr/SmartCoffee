@@ -3,7 +3,7 @@
 #include <Arduino.h>
 #include <ServoTimer2.h>
 #define delta 10
-#define TCHECK 6000
+#define TCHECK 180000
 
 RunningTask* run;
 AssistanceTask::AssistanceTask(){    
@@ -23,7 +23,6 @@ void AssistanceTask::addRunningTask(RunningTask* runningTask){
 }
 void AssistanceTask::resetState(){
   this->setActive(true);
-  timer.startTimer();
   position = 0;
   servo->setPosition(0);
   direction = true;

@@ -13,7 +13,7 @@ void CustomTimer::startTimer() {
 bool CustomTimer::isStarted() {
   return initialTime != 0;
 }
-bool CustomTimer::checkExpired(int t) {
+bool CustomTimer::checkExpired(unsigned long t) {
   if(millis() - initialTime >= t) {
     return true;
   }

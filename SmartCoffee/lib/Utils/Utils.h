@@ -11,7 +11,7 @@ class CustomTimer{
        CustomTimer(); //constructor
        void startTimer();
        bool isStarted();
-       bool checkExpired(int t);
+       bool checkExpired(unsigned long t);
 };
 
 class PCI {

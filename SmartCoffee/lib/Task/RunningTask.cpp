@@ -87,7 +87,6 @@ void RunningTask::tick() {
       sleep_enable();
       sleep_mode();
       sleep_disable();
-      Serial.println("wake up");
       pirTimer.startTimer();
       assistanceTask->resetState();
       state = IDLE;
