@@ -8,7 +8,7 @@
 #include "ButtonImpl.h"
 #include "Utils.h"
 
-#define NMAX 10
+#define NMAX 3
 #define TIDLE 60000
 #define TBOOTING 10000
 MakingTask* makingTask;
@@ -46,10 +46,7 @@ void RunningTask::init(int period,Button* buttonUP,Button* buttonDOWN,Button* bu
   for(int i=0;i<3;i++) {
     coffeeType_array[i] = 0;
   }
-  
 }
-
-
 
 void RunningTask::resetState(){
   this->setActive(true);
@@ -144,6 +141,9 @@ void RunningTask::tick() {
         else {
           singleton.lcd.clear();
           singleton.lcd.print("Coffee type not available");
+          if(coffeeType_array[0]==0 && coffeeType_array[1]==0 && coffeeType_array[2]==0) {
+            assistanceTask->goToAssistance();
+          }
         }
       }
       break;

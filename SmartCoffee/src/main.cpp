@@ -10,6 +10,7 @@
 #include "ServoMotorImpl.h"
 #include "Sonar.h"
 #include "Pir.h"
+#include "TemperatureSensor.h"
 
 #define BUP 5
 #define BDOWN 3
@@ -25,6 +26,7 @@ Pot* sugarPot;
 ServoMotor* servo;
 Sonar* sonar;
 Pir* pir;
+TemperatureSensor* temperatureSensor;
 
 
 void setup() {
@@ -35,6 +37,7 @@ void setup() {
   servo = new ServoMotorImpl(SERVO_PIN);
   sonar = new Sonar();
   pir = new Pir();
+  temperatureSensor = new TemperatureSensor();
   singleton.lcd.init();
   singleton.lcd.backlight();
   Serial.begin(9600);
@@ -42,7 +45,7 @@ void setup() {
   MakingTask* makingTask = new MakingTask();
   makingTask->init(100,servo,sonar);
   AssistanceTask* assistanceTask = new AssistanceTask();
-  assistanceTask->init(100,servo);
+  assistanceTask->init(100,servo,temperatureSensor);
   RunningTask* running = new RunningTask();
 
   running->setActive(true);

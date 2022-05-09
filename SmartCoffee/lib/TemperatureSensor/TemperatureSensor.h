@@ -5,7 +5,7 @@ class TemperatureSensor {
  
 public:
     TemperatureSensor();
-    float getTemperature();
+    double getTemperature();
 };
 
 #endif
