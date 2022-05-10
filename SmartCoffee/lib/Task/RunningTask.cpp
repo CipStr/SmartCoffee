@@ -9,7 +9,7 @@
 #include "Utils.h"
 
 #define NMAX 3
-#define TIDLE 60000
+#define TIDLE 20000
 #define TBOOTING 10000
 MakingTask* makingTask;
 AssistanceTask* assistanceTask;
