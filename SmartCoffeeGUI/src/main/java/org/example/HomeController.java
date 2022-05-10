@@ -1,4 +1,7 @@
 package org.example;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+
 import java.util.Arrays;
 
 enum MachineState {
@@ -21,7 +24,8 @@ enum MachineState {
 }
 
 public class HomeController {
-
+    @FXML
+    public Label label;
     public String message;
     private MachineState getStateByIndex(String i) {
         return Arrays.stream(MachineState.values()).filter(s -> s.getI() == Integer.parseInt(i)).findFirst().get();
@@ -38,13 +42,16 @@ public class HomeController {
      */
     public void parse(String message) {
         if (message.contains("MachineUpdate")) {
-            int stateIndex = message.indexOf("state")+6;
-            setState(message.substring(stateIndex, message.indexOf('&',stateIndex+1)));
-            int checkIndex = message.indexOf("checks")+7;
-            int coffeeIndex = message.indexOf("coffee")+7;
-            int teaIndex = message.indexOf("tea")+4;
-            int chocolateIndex = message.indexOf("chocolate")+10;
+            label.setText(message);
         }
+    }
+    @FXML
+    void recover() {
+        sendMessage("recover");
+    }
+    @FXML
+    void refill() {
+        sendMessage("refill");
     }
     void sendMessage(String message) {
         this.message = message;

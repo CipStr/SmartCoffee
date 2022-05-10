@@ -67,7 +67,7 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\SmartCoffeeGUI-1.0-SNAPSHOT.jar;%APP_HOME%\lib\jssc-2.9.2.jar;%APP_HOME%\lib\slf4j-simple-1.6.4.jar;%APP_HOME%\lib\native-lib-loader-2.3.3.jar;%APP_HOME%\lib\slf4j-api-1.7.25.jar;%APP_HOME%\lib\javafx-fxml-17.0.1-win.jar;%APP_HOME%\lib\javafx-controls-17.0.1-win.jar;%APP_HOME%\lib\javafx-controls-17.0.1.jar;%APP_HOME%\lib\javafx-swing-17.0.1-win.jar;%APP_HOME%\lib\javafx-graphics-17.0.1-win.jar;%APP_HOME%\lib\javafx-graphics-17.0.1.jar;%APP_HOME%\lib\javafx-base-17.0.1-win.jar;%APP_HOME%\lib\javafx-base-17.0.1.jar
+set CLASSPATH=%APP_HOME%\lib\SmartCoffeeGUI-1.0-SNAPSHOT.jar;%APP_HOME%\lib\jssc-2.9.2.jar;%APP_HOME%\lib\slf4j-simple-1.6.4.jar;%APP_HOME%\lib\native-lib-loader-2.3.3.jar;%APP_HOME%\lib\slf4j-api-1.7.25.jar;%APP_HOME%\lib\javafx-swing-17.0.1-win.jar;%APP_HOME%\lib\javafx-fxml-17.0.1-win.jar;%APP_HOME%\lib\javafx-controls-17.0.1-win.jar;%APP_HOME%\lib\javafx-controls-17.0.1.jar;%APP_HOME%\lib\javafx-graphics-17.0.1-win.jar;%APP_HOME%\lib\javafx-graphics-17.0.1.jar;%APP_HOME%\lib\javafx-base-17.0.1-win.jar;%APP_HOME%\lib\javafx-base-17.0.1.jar
 
 
 @rem Execute SmartCoffeeGUI

@@ -6,7 +6,7 @@ public class CommunicationThread {
     private CommChannel commChannel;
     private HomeController controller;
     public CommunicationThread(final HomeController controller) throws Exception {
-        commChannel = new SerialCommChannel("COM6",9600);
+        commChannel = new SerialCommChannel("COM3",9600);
         this.controller = controller;
     }
     public void startCommunication() {
