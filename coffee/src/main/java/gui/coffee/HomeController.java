@@ -41,9 +41,10 @@ public class HomeController {
      * @param message
      */
     public void parse(String message) {
-        if (message.contains("MachineUpdate")) {
-            label.setText(message);
-        }
+        label.setText(message);
+        //if (message.contains("MachineUpdate")) {
+          //  label.setText(message);
+        //}
     }
     @FXML
     void recover() {
