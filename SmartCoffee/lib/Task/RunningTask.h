@@ -31,6 +31,7 @@ class RunningTask: public Task {
     void addMessageTask(MessageTask* messageTask);
     void resetState();
     void checkMovement();
+    void refill();
 
   private:
     int coffeeType_array[3];

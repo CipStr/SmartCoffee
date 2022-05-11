@@ -5,7 +5,7 @@
 #include "TemperatureSensor.h"
 #define delta 10
 #define TCHECK 180000
-#define TTEMP 10000
+#define TTEMP 5000
 
 RunningTask* run;
 MessageTask* message;
@@ -56,12 +56,11 @@ void AssistanceTask::tick(){
             if(tempTimer.checkExpired(TTEMP)){
                 double temp=temperatureSensor->getTemperature();
                 if(temp>25 || temp<17){
-                    Serial.println("Temperature is not ok");
                     run->setActive(false);
+                    message->updateState("ASSISTANCE");
                     state=ASSISTANCE;
                 }
                 else{
-                    Serial.println("Temperature is ok");
                     direction = true;
                     motorChecked = false;
                     timer.startTimer();
@@ -71,6 +70,7 @@ void AssistanceTask::tick(){
             
         break;
         case ASSISTANCE:
+            inputChecker();
             singleton.lcd.clear();
             singleton.lcd.setCursor(0,0);
             singleton.lcd.print("Assistance is required");
@@ -81,6 +81,19 @@ void AssistanceTask::goToAssistance(){
   run->setActive(false);
   message->updateState("ASSISTANCE");
   state=ASSISTANCE;
+}
+void AssistanceTask::inputChecker(){
+  String mess=Serial.readString().substring(0,3);
+  if(mess=="rec"){
+    recover();
+  }
+  if(mess=="ref"){
+    run->refill();
+  }
+}
+void AssistanceTask::recover(){
+  run->resetState();
+  resetState();
 }
 
 void AssistanceTask::checkMotor(){

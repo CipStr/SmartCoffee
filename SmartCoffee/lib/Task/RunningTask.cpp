@@ -10,7 +10,7 @@
 #include "Utils.h"
 
 #define NMAX 3
-#define TIDLE 20000
+#define TIDLE 60000
 #define TBOOTING 10000
 MakingTask* makingTask;
 AssistanceTask* assistanceTask;
@@ -167,6 +167,13 @@ void RunningTask::tick() {
       this->setActive(false);
       break;
     }
+}
+
+void RunningTask::refill(){
+  for(int i=0;i<3;i++) {
+    coffeeType_array[i] = NMAX ;
+  }
+  messageTask->updateQuantity(coffeeType_array[0],coffeeType_array[1],coffeeType_array[2]);
 }
 
 void RunningTask::msgChecking() {

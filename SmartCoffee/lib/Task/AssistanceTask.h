@@ -24,6 +24,8 @@ public:
   void resetState();
   void checkMotor();
   void goToAssistance();
+  void recover();
+  void inputChecker();
   
 private:
   ServoMotor* servo;
