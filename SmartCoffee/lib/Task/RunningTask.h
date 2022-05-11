@@ -4,12 +4,14 @@
 #include "Task.h"
 #include "MakingTask.h"
 #include "AssistanceTask.h"
+#include "MessageTask.h"
 #include "ButtonImpl.h"
 #include "Pot.h"
 #include "Utils.h"
 #include "Pir.h"
 class MakingTask;
 class AssistanceTask;
+class MessageTask;
 
 class RunningTask: public Task {
  
@@ -26,8 +28,10 @@ class RunningTask: public Task {
     void tick();
     void addMakingTask(MakingTask* makingTask);
     void addAssistanceTask(AssistanceTask* assistanceTask);
+    void addMessageTask(MessageTask* messageTask);
     void resetState();
     void checkMovement();
+    void refill();
 
   private:
     int coffeeType_array[3];

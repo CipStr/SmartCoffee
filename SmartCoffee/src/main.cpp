@@ -3,6 +3,7 @@
 #include "MakingTask.h"
 #include "RunningTask.h"
 #include "AssistanceTask.h"
+#include "MessageTask.h"
 #include "Scheduler.h"
 #include "ButtonImpl.h"
 #include "Pot.h"
@@ -42,6 +43,8 @@ void setup() {
   singleton.lcd.backlight();
   Serial.begin(9600);
   scheduler.init(100);
+  MessageTask* messageTask = new MessageTask();
+  messageTask->init(100);
   MakingTask* makingTask = new MakingTask();
   makingTask->init(100,servo,sonar);
   AssistanceTask* assistanceTask = new AssistanceTask();
@@ -52,11 +55,15 @@ void setup() {
   running->init(100, buttonUP, buttonDOWN, buttonMAKE, sugarPot, pir);
   running->addMakingTask(makingTask);
   running->addAssistanceTask(assistanceTask);
+  running->addMessageTask(messageTask);
   makingTask->addRunningTask(running);
-  assistanceTask->addRunningTask(running);
+  assistanceTask->addTasks(running,messageTask);
+  messageTask->addTasks(running,assistanceTask,makingTask);
+  messageTask->setActive(false); 
   scheduler.addTask(running);
   scheduler.addTask(makingTask);
   scheduler.addTask(assistanceTask);
+  scheduler.addTask(messageTask);
 }
 
 void loop() {

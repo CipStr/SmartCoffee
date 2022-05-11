@@ -2,6 +2,7 @@
 #include "MakingTask.h"
 #include "AssistanceTask.h"
 #include "RunningTask.h"
+#include "MessageTask.h"
 #include <Arduino.h>
 #include "./avr/sleep.h"
 #include "./avr/power.h"
@@ -9,10 +10,11 @@
 #include "Utils.h"
 
 #define NMAX 3
-#define TIDLE 20000
+#define TIDLE 60000
 #define TBOOTING 10000
 MakingTask* makingTask;
 AssistanceTask* assistanceTask;
+MessageTask* messageTask;
 
 RunningTask::RunningTask(){
 }
@@ -29,6 +31,10 @@ void RunningTask::addMakingTask(MakingTask* task){
 void RunningTask::addAssistanceTask(AssistanceTask* task){
   assistanceTask = task;
   assistanceTask->setActive(false);
+}
+
+void RunningTask::addMessageTask(MessageTask* task){
+  messageTask = task;
 }
 
 void RunningTask::init(int period,Button* buttonUP,Button* buttonDOWN,Button* buttonMAKE,Pot* sugarPot, Pir* pir) {
@@ -54,6 +60,7 @@ void RunningTask::resetState(){
   pirTimer.startTimer();
   assistanceTask->resetState();
   assistanceTask->setActive(true);
+  messageTask->updateState("IDLE");
   state = IDLE;
   readyFlag=true;
 }
@@ -72,6 +79,9 @@ void RunningTask::tick() {
       if(pirTimer.checkExpired(TBOOTING)){
         pirTimer.startTimer();
         assistanceTask->setActive(true);
+        messageTask->updateQuantity(coffeeType_array[0],coffeeType_array[1],coffeeType_array[2]);
+        messageTask->updateState("IDLE");
+        messageTask->setActive(true);
         state = IDLE;
       }
       break;
@@ -86,6 +96,7 @@ void RunningTask::tick() {
       sleep_disable();
       pirTimer.startTimer();
       assistanceTask->resetState();
+      messageTask->updateState("IDLE");
       state = IDLE;
       break;
     case IDLE:
@@ -136,6 +147,8 @@ void RunningTask::tick() {
           coffeeType_array[selectedCoffeeType]--;
           singleton.lcd.clear();
           singleton.lcd.print("Coffee type available");
+          messageTask->updateQuantity(coffeeType_array[0],coffeeType_array[1],coffeeType_array[2]);
+          messageTask->updateState("MAKING");
           state=MAKE;
         }
         else {
@@ -156,6 +169,12 @@ void RunningTask::tick() {
     }
 }
 
+void RunningTask::refill(){
+  for(int i=0;i<3;i++) {
+    coffeeType_array[i] = NMAX ;
+  }
+  messageTask->updateQuantity(coffeeType_array[0],coffeeType_array[1],coffeeType_array[2]);
+}
 
 void RunningTask::msgChecking() {
   if(timer.checkExpired(5000)) {
@@ -168,6 +187,7 @@ void RunningTask::checkMovement() {
   if (current==0) {
     if(pirTimer.checkExpired(TIDLE)) {
       assistanceTask->setActive(false);
+      messageTask->updateState("SLEEP");
       state = SLEEP;
     }
   }
