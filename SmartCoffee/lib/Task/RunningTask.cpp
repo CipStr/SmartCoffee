@@ -9,7 +9,7 @@
 #include "Utils.h"
 
 #define NMAX 3
-#define TIDLE 20000
+#define TIDLE 60000
 #define TBOOTING 10000
 MakingTask* makingTask;
 AssistanceTask* assistanceTask;
@@ -89,6 +89,7 @@ void RunningTask::tick() {
       state = IDLE;
       break;
     case IDLE:
+      Serial.println("Machine State: IDLE coffee: " + String(coffeeType_array[0])+" tea: "+String(coffeeType_array[1])+" chocolate: "+String(coffeeType_array[2]));
       checkMovement();
       sugar=sugarPot->getValue(0,9);
       singleton.lcd.setCursor(3,2);

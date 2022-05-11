@@ -4,7 +4,7 @@
 #include <ServoTimer2.h>
 #include "TemperatureSensor.h"
 #define delta 10
-#define TCHECK 180000
+#define TCHECK 10000
 #define TTEMP 10000
 
 RunningTask* run;
