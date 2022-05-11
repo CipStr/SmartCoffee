@@ -4,10 +4,11 @@
 #include <ServoTimer2.h>
 #include "TemperatureSensor.h"
 #define delta 10
-#define TCHECK 10000
+#define TCHECK 180000
 #define TTEMP 10000
 
 RunningTask* run;
+MessageTask* message;
 AssistanceTask::AssistanceTask(){    
 
 }
@@ -19,11 +20,13 @@ void AssistanceTask::init(int period, ServoMotor* servo, TemperatureSensor* temp
   direction = true;
   motorChecked = false;
   position = 0;
+  checkCount = 0;
   state=CHECK;
 }
 
-void AssistanceTask::addRunningTask(RunningTask* runningTask){
+void AssistanceTask::addTasks(RunningTask* runningTask,MessageTask* messageTask){
   run = runningTask;
+  message = messageTask;
 }
 void AssistanceTask::resetState(){
   this->setActive(true);
@@ -76,6 +79,7 @@ void AssistanceTask::tick(){
 }
 void AssistanceTask::goToAssistance(){
   run->setActive(false);
+  message->updateState("ASSISTANCE");
   state=ASSISTANCE;
 }
 
@@ -92,6 +96,8 @@ void AssistanceTask::checkMotor(){
         if(position < 0){
             direction = true;
             motorChecked = true;
+            checkCount++;
+            message->updateCheckCount(checkCount);
         }
     }   
 }

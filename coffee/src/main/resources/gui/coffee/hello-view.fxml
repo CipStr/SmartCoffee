@@ -3,12 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.coffee.HomeController">
     <children>
         <Button fx:id="refillBtn" layoutX="24.0" layoutY="281.0" mnemonicParsing="false" onAction="#refill" prefHeight="50.0" prefWidth="151.0" text="Refill" />
         <Button fx:id="recoverBtn" layoutX="434.0" layoutY="281.0" mnemonicParsing="false" onAction="#recover" prefHeight="50.0" prefWidth="144.0" text="Recover" />
-        <Label fx:id="label" alignment="TOP_LEFT" layoutX="130.0" layoutY="69.0" prefHeight="120.0" prefWidth="335.0" />
+        <Label fx:id="label" alignment="TOP_LEFT" layoutX="68.0" layoutY="69.0" prefHeight="120.0" prefWidth="500.0" />
         <Label layoutX="72.0" layoutY="34.0" prefHeight="17.0" prefWidth="234.0" text="SmartCoffee State and Beverages:" />
     </children>
 </Pane>

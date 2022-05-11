@@ -4,10 +4,12 @@
 #include "Task.h"
 #include "Utils.h"
 #include "RunningTask.h"
+#include "MessageTask.h"
 #include "ServoMotorImpl.h"
 #include "TemperatureSensor.h"
 
 class RunningTask;
+class MessageTask;
 
 class AssistanceTask: public Task {
 
@@ -18,7 +20,7 @@ public:
   AssistanceTask();  
   void init(int period, ServoMotor* servo, TemperatureSensor* temperatureSensor);
   void tick();
-  void addRunningTask(RunningTask* runningTask);
+  void addTasks(RunningTask* runningTask,MessageTask* messageTask);
   void resetState();
   void checkMotor();
   void goToAssistance();
@@ -31,5 +33,6 @@ private:
   int position;
   bool direction;
   bool motorChecked;
+  int checkCount;
 };
 #endif  
